@@ -1,0 +1,138 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --GREEN_DARK: rgb(3, 28, 22);
+  --GREEN_LIGHT: rgb(24, 226, 176);
+  --WHITE: rgb(255, 255, 255);
+  --BLACK: rgb(0, 0, 0);
+  --GREY: rgba(163, 163, 163, 1);
+  --GREEN_DARK_10: rgba(3, 28, 22, 0.1);
+  --GREEN_DARK_25: rgba(3, 28, 22, 0.25);
+  --GREEN_DARK_70: rgba(3, 28, 22, 0.7);
+  --WHITE_5: rgba(255, 255, 255, 0.05);
+  --GREY_25: rgba(163, 163, 163, 0.25);
+  --GREY_70: rgb(163, 163, 163);
+  --GREEN_LIGHT_10: rgba(24, 226, 176, 0.1);
+  outline: none !important;
+}
+
+body {
+  color: var(--BLACK);
+  background: var(--WHITE);
+  font-family: var(--font-poppins), sans-serif;
+}
+
+.btn {
+  @apply px-3.5 py-2.5 rounded-full transition-all duration-300 ease-in-out;
+}
+.btn-rounded-right {
+  @apply px-4 py-3 rounded-r-xl transition-all duration-300 ease-in-out;
+}
+
+.btn-primary {
+  @apply text-black bg-green-light hover:bg-opacity-90;
+}
+.btn-transition {
+  @apply transform hover:scale-105
+}
+
+.btn-text {
+  @apply text-black bg-transparent hover:bg-green-light-10;
+}
+
+.step-number {
+  @apply flex items-center justify-center w-16 h-16 rounded-full bg-green-light text-black text-2xl;
+}
+
+.section-title {
+  @apply text-sm font-medium tracking-wider uppercase text-center mb-2;
+}
+
+.section-heading {
+  @apply text-3xl md:text-5xl font-bold text-center mb-16;
+}
+
+.hero-title {
+  @apply text-5xl md:text-6xl font-bold leading-tight;
+}
+
+.hero-description {
+  @apply text-base md:text-lg max-w-md mt-4 mb-8;
+}
+
+.card {
+  @apply bg-white rounded-xl p-6 shadow-sm border border-gray-100 transition-all duration-300;
+}
+
+.card-selected {
+  @apply bg-green-light-10 border-green-light;
+}
+
+.card-hover:hover {
+  @apply shadow-md;
+}
+
+.input-field {
+  @apply w-full px-4 py-3 rounded-xl border border-gray-200 outline-none  focus:border-green-light transition-all duration-300;
+}
+.input-field-rounded-left{
+  @apply w-full px-4 py-3 rounded-l-xl border border-gray-200 outline-none  focus:border-green-light transition-all duration-300;
+}
+
+.textarea-field {
+  @apply w-full px-4 py-3 rounded-xl border border-gray-200 outline-none  focus:border-green-light transition-all duration-300 min-h-32 resize-none;
+}
+
+.service-tag {
+  @apply px-4 py-2 rounded-full border border-gray-200 text-gray-700 cursor-pointer transition-all duration-300;
+}
+
+.service-tag-selected {
+  @apply bg-green-dark text-white border-green-dark;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    transform: scale(0.95);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.5s ease-out forwards;
+}
+
+.animate-scale-in {
+  animation: scaleIn 0.5s ease-out forwards;
+}
+
+.hover-scale {
+  transition: transform 0.3s ease;
+}
+
+.hover-scale:hover {
+  transform: scale(1.05);
+}
+
+.rating {
+  @apply flex gap-1;
+}
+
+.rating-star {
+  @apply text-yellow-400;
+}
