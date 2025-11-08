@@ -6,8 +6,7 @@ export async function POST(req: Request) {
   await connectDB();
 
   try {
-
-      return NextResponse.json({ });
+    return NextResponse.json({});
   } catch (err) {
     return NextResponse.json({ error: "Failed to sync user" }, { status: 500 });
   }
