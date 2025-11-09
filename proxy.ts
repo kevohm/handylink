@@ -18,18 +18,26 @@ const protectedRoutes = createRouteMatcher([
 ]);
 
 export default clerkMiddleware(async (auth, req) => {
-  // Skip API routes entirely
+  // Ignore static and API routes
   if (req.nextUrl.pathname.startsWith("/api")) {
+     const { userId } = await auth();
+
+     if (!userId) {
+       return NextResponse.json(
+         { error: "Not authenticated" },
+         { status: 401 }
+       );
+     }
     return NextResponse.next();
   }
 
   const { userId } = await auth();
 
-  // If no userId, let auth.protect handle protected routes
+  // 🔹 Not logged in
   if (!userId) {
     if (protectedRoutes(req)) {
       try {
-        await auth.protect(); // redirects if not logged in
+        await auth.protect(); // will redirect to /sign-in
       } catch {
         return NextResponse.redirect(new URL("/sign-in", req.url));
       }
@@ -37,23 +45,20 @@ export default clerkMiddleware(async (auth, req) => {
     return NextResponse.next();
   }
 
-  // ✅ Check if user exists in your database
+  // 🔹 Logged in: check if user exists in DB
   const user = await prisma.user.findUnique({ where: { clerkId: userId } });
 
-  // 1️⃣ Logged-in users accessing onboarding routes are allowed
-  if (userId && onboardingRoutes(req)) {
-    return NextResponse.next();
+  // 🧭 Case 1: User not in DB → redirect to onboarding
+  if (!user && !onboardingRoutes(req)) {
+    return NextResponse.redirect(new URL("/select-role", req.url));
   }
 
-  // 2️⃣ Protected routes
-  if (protectedRoutes(req)) {
-    // Redirect to sign-in if user does not exist in DB
-    if (!user) {
-      return NextResponse.redirect(new URL("/create-profile", req.url));
-    }
+  // 🧭 Case 2: User exists but is trying to access onboarding → redirect to home
+  if (user && onboardingRoutes(req)) {
+    return NextResponse.redirect(new URL("/", req.url));
   }
 
-  // 3️⃣ Default: allow access
+  // 🧭 Case 3: Everything else → allow
   return NextResponse.next();
 });
 

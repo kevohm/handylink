@@ -3,7 +3,7 @@ import { Rating } from "@/components/ui/rating";
 import { User } from "@/types/user";
 import { motion } from "framer-motion";
 
-const UserCard = ({ ...user }: Pick<User,  "id" | "about" | "gender" | "rating" | "name">) => {
+const UserCard = ({ ...user }: Pick<User,  "id" | "about" | "gender" | "rating" | "name" | "profileImage">) => {
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -12,7 +12,7 @@ const UserCard = ({ ...user }: Pick<User,  "id" | "about" | "gender" | "rating" 
       className="flex flex-col items-center text-center mb-12"
     >
       <Avatar
-        src="/placeholder.svg?height=200&width=200"
+        src={user.profileImage}
         alt={user.name}
         size="xl"
         className="mb-4"

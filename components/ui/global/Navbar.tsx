@@ -53,7 +53,7 @@ function Navigation() {
             }}
           />
           <Button className="text-sm">
-            <Link href="/account">Account</Link>
+            <Link href="/profile">Account</Link>
           </Button>
         </SignedIn>
       </div>
@@ -91,7 +91,7 @@ function Navigation() {
                 <ul className="py-2">
                   <li>
                     <Link
-                      href="/account"
+                      href="/profile"
                       className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                       onClick={toggleMenu}
                     >

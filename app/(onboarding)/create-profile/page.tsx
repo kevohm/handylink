@@ -15,6 +15,7 @@ import axios from "axios";
 import { z } from "zod";
 import { toast } from "sonner";
 import { PhoneInput } from "@/components/ui/phone-input";
+import api from "@/lib/axios";
 
 const createProfileSchema = z
   .object({
@@ -89,7 +90,7 @@ export default function CreateProfile() {
 
     try {
       setIsSubmitting(true);
-      const { data } = await axios.post("/api/auth/onboard", payload);
+      const { data } = await api.post("/api/auth/onboard", payload);
 
       if (data.message) {
         await user?.reload();
@@ -155,10 +156,9 @@ export default function CreateProfile() {
               label="Phone Number"
               name="phoneNumber"
               value={body.phoneNumber}
-              onValueChange={(value)=>{
-                setBody(prev=>({...prev, phoneNumber:value}))
+              onValueChange={(value) => {
+                setBody((prev) => ({ ...prev, phoneNumber: value }));
               }}
-             
             />
             <Textarea
               label="About Me"
@@ -180,7 +180,6 @@ export default function CreateProfile() {
               variant="primary"
               fullWidth
               type="submit"
-              
               disabled={isSubmitting}
             >
               {isSubmitting ? "Submitting..." : "Finish Setup"}

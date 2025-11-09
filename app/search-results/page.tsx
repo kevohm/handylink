@@ -8,10 +8,13 @@ import { TaskerCard } from "@/components/ui/tasker-card"
 import { Avatar } from "@/components/ui/avatar"
 import Navbar from "@/components/ui/global/Navbar"
 import SearchInput from "@/components/ui/global/SearchInput"
+import { useSearchParams } from "next/navigation";
 
 export default function SearchResults() {
-  const [searchQuery, setSearchQuery] = useState("Kitchen helper, friendly male, $100 budget")
-
+   const searchParams = useSearchParams();
+  const queryParam = searchParams.get("s") || ""; // read ?s=... from URL
+  const [searchQuery, setSearchQuery] = useState(queryParam);
+  
   // Mock data for taskers
   const taskers = [
     {

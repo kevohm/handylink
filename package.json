@@ -6,11 +6,11 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
+    "lint": "eslint .",
     "migrate": "prisma db push"
   },
   "dependencies": {
-    "@clerk/nextjs": "^6.14.3",
+    "@clerk/nextjs": "^6.34.5",
     "@emotion/is-prop-valid": "latest",
     "@hookform/resolvers": "^3.9.1",
     "@prisma/client": "^6.19.0",
@@ -54,11 +54,12 @@
     "lucide-react": "^0.454.0",
     "mongodb": "^6.15.0",
     "mongoose": "^8.13.2",
-    "next": "15.2.4",
+    "next": "16.0.1",
     "next-themes": "^0.4.4",
-    "react": "^19",
+    "openai": "^6.8.1",
+    "react": "19.2.0",
     "react-day-picker": "8.10.1",
-    "react-dom": "^19",
+    "react-dom": "19.2.0",
     "react-hook-form": "^7.54.1",
     "react-resizable-panels": "^2.1.7",
     "recharts": "2.15.0",
@@ -70,12 +71,18 @@
   },
   "devDependencies": {
     "@types/node": "^22",
-    "@types/react": "^19",
-    "@types/react-dom": "^19",
+    "@types/react": "19.2.2",
+    "@types/react-dom": "19.2.2",
+    "eslint": "^9.39.1",
+    "eslint-config-next": "^16.0.1",
     "postcss": "^8",
     "prisma": "^6.19.0",
     "tailwindcss": "^3.4.17",
     "tsx": "^4.20.6",
     "typescript": "^5"
+  },
+  "overrides": {
+    "@types/react": "19.2.2",
+    "@types/react-dom": "19.2.2"
   }
 }
