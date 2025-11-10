@@ -3,9 +3,11 @@ import { StepperProvider } from '@/contexts/SignUpData';
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
+
     <StepperProvider>
       <Component {...pageProps} />
     </StepperProvider>
+  
   );
 }
 

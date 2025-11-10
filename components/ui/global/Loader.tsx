@@ -23,19 +23,14 @@ export default function  Loader() {
         </motion.div>
 
         {/* Title text with fade-in animation */}
-        <motion.h1
-          className="text-3xl font-bold mb-4"
-        >
+        <motion.h1 className="text-3xl font-bold mb-4">
           Loading, Please Wait...
         </motion.h1>
 
         {/* Description text with fade-in animation */}
-        <motion.p
-          className="text-gray-600 mb-8"
-        >
-          We're processing your request. It won't be long now!
+        <motion.p className="text-gray-600 mb-8">
+          We&apos;re processing your request. It won&apos;t be long now!
         </motion.p>
-
       </div>
     </main>
   );

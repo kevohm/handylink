@@ -19,8 +19,8 @@ const ReviewItems = ({ reviews, name, rating}:Props) => {
       <h2 className="text-xl font-bold mb-4">Reviews</h2>
       <ReviewForm name={name} rating={rating} />
       <div className="grid grid-cols-3 gap-5">
-        {reviews.map((review) => (
-          <SingleReview {...review} />
+        {reviews.map((review, index) => (
+          <SingleReview {...review} key={index} />
         ))}
       </div>
     </motion.div>

@@ -17,6 +17,9 @@ interface AnimatedStarProps {
     bottom?: string;
   };
   index: number;
+  x?: number;
+  y?: number;
+  rotate?: number;
 }
 
 export function AnimatedStar({
@@ -26,11 +29,14 @@ export function AnimatedStar({
   className = "",
   position = {},
   index,
+  x = Math.random() * 20 - 10,
+  y = Math.random() * 20 - 10,
+  rotate = Math.random() * 20 - 10,
 }: AnimatedStarProps) {
   const [randomMovement, setRandomMovement] = useState({
-    x: Math.random() * 20 - 10,
-    y: Math.random() * 20 - 10,
-    rotate: Math.random() * 20 - 10,
+    x,
+    y,
+    rotate,
   });
 
   useEffect(() => {
@@ -62,7 +68,6 @@ export function AnimatedStar({
         y: randomMovement.y,
         rotate: randomMovement.rotate,
       }}
-      
       transition={{
         opacity: { duration: 0.5, delay },
         scale: { duration: 0.5, delay },

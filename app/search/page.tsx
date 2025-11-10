@@ -21,7 +21,7 @@ export default function Search() {
       {/* Animated Stars */}
       {stars.map((star, index) => (
         <AnimatedStar
-        index={index}
+          index={index}
           key={index}
           className={star.className}
           position={star.position}
@@ -53,7 +53,7 @@ export default function Search() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.1 }}
         >
-          Need an extra hand? Tell us who you're looking for and
+          Need an extra hand? Tell us who your&apos;e looking for and
           <br />
           your budget.
         </motion.p>
@@ -64,7 +64,7 @@ export default function Search() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.2 }}
         >
-          <SearchInput/>
+          <SearchInput />
         </motion.div>
 
         <motion.p

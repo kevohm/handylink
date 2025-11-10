@@ -20,10 +20,7 @@ export default function Profile() {
     }
   };
 
-  useEffect(() => {
-    getCurrentUser();
-  }, []);
-
+  getCurrentUser()
   // Fallback to empty lists if user data not ready
   const services = [
     {

@@ -16,8 +16,8 @@ const TaskItems = ({tasks}:Props) => {
 >
   <h2 className="text-xl font-bold mb-4">What I Do</h2>
   <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-    {tasks.map((task) => (
-      <SingleTask {...task} />
+    {tasks.map((task, index) => (
+      <SingleTask {...task} key={index} />
     ))}
   </div>
 </motion.div>
