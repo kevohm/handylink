@@ -3,6 +3,7 @@ const nextConfig = {
   reactStrictMode: true,
   images: {
     domains: ["img.clerk.com"], // ✅ allow Clerk profile images
+    
   },
 };
 

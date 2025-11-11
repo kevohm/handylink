@@ -1,30 +1,29 @@
-// pages/api/me.ts
-import type { NextApiRequest, NextApiResponse } from "next";
+
+// app/api/me/route.ts
 import { auth, clerkClient } from "@clerk/nextjs/server";
 import prisma from "@/lib/prisma";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
-export async function GET(req: NextApiRequest, res: NextApiResponse) {
-  // ✅ Use the new `auth()` helper instead of `getAuth(req)`
+export async function GET(req: NextRequest) {
+  // ✅ Get authenticated user
   const { userId } = await auth();
-  if (!userId) return res.status(401).json({ error: "Not authenticated" });
+  if (!userId) {
+    return NextResponse.json({ error: "Not authenticated" }, { status: 401 });
+  }
 
   try {
-    // ✅ Fetch user details from Clerk
+    // ✅ Fetch user details from your Prisma DB
     const user = await prisma.user.findUnique({
-      where:{
-        clerkId:userId
-      }
-    })
-    if(!user) throw new Error("Unauthorized")
+      where: { clerkId: userId },
+    });
 
-    // return res.status(200).json({ user });
+    if (!user) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 403 });
+    }
+
     return NextResponse.json({ user });
   } catch (error: any) {
-    console.error("Error fetching user or saving to DB:", error);
-    return NextResponse.json(
-      { error: "Internal server error" },
-      { status: 500 }
-    );
+    console.error("Error fetching user:", error);
+    return NextResponse.json({ error: "Internal server error" }, { status: 500 });
   }
 }

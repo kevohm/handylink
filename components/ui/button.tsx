@@ -1,5 +1,6 @@
 "use client";
 
+import { cva, type VariantProps } from "class-variance-authority";
 import { motion, type MotionProps } from "framer-motion";
 import Link from "next/link";
 import type {
@@ -7,59 +8,92 @@ import type {
   ButtonHTMLAttributes,
   AnchorHTMLAttributes,
 } from "react";
+import { cn } from "@/lib/utils";
 
-interface CommonButtonProps {
-  variant?: "primary" | "text" | "outline";
+// ✅ Define reusable variant + size system
+export const buttonVariants = cva(
+  "inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none",
+  {
+    variants: {
+      variant: {
+        default: "bg-sky-500 text-white hover:bg-sky-600",
+        destructive: "bg-red-500 text-white hover:bg-red-600",
+        secondary: "bg-gray-200 text-gray-900 hover:bg-gray-300",
+        ghost: "bg-transparent hover:bg-gray-100",
+        primary: "bg-green-light text-black hover:bg-green-light/80",
+        outline:
+          "border border-green-light text-green-light hover:bg-green-light hover:text-black",
+        text: "text-green-light hover:underline",
+      },
+      size: {
+        sm: "h-8 px-3 text-sm",
+        default: "h-10 px-4 py-2",
+        lg: "h-12 px-6 text-lg",
+      },
+    },
+    defaultVariants: {
+      variant: "default",
+      size: "default",
+    },
+  }
+);
+
+// ✅ Common props shared between <button> and <Link>
+interface CommonButtonProps extends VariantProps<typeof buttonVariants> {
   icon?: ReactNode;
   fullWidth?: boolean;
   padding?: string;
   href?: string;
+  size?: "default" | "sm" | "lg";
+  children: ReactNode;
+  variant?: "primary" | "destructive" | "secondary" | "outline" | "text" | "default" | "ghost"; // keep your own variants
 }
 
-// ✅ Fix: restrict rest props to valid motion props + native ones
 type MotionButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & MotionProps;
 type MotionAnchorProps = AnchorHTMLAttributes<HTMLAnchorElement> & MotionProps;
 
-type ButtonProps = CommonButtonProps &
+// ✅ Unified ButtonProps type
+export type ButtonProps = CommonButtonProps &
   (
-    | ({
-        href?: undefined;
-      } & MotionButtonProps)
-    | ({
-        href: string;
-      } & MotionAnchorProps)
-  ) & {
-    children: ReactNode;
-  };
+    | ({ href?: undefined } & MotionButtonProps)
+    | ({ href: string } & MotionAnchorProps)
+  );
 
 export function Button({
   children,
   variant = "primary",
+  size = "default",
   icon,
   fullWidth = false,
   padding,
   href,
   className = "",
+  onClick,
   ...rest
 }: ButtonProps) {
-  const baseClass =
-    "flex items-center justify-center gap-2 rounded-full transition-all duration-200 font-medium";
-
-  const variantClass = {
-    primary: "bg-green-light text-black hover:bg-green-light/80 px-6 py-2",
-    outline:
-      "border border-green-light text-green-light hover:bg-green-light hover:text-black px-6 py-2",
-    text: "text-green-light hover:underline px-6 py-2",
-  }[variant];
-
-  const widthClass = fullWidth ? "w-full" : "";
-  const paddingClass = padding || "";
-
   const motionProps: MotionProps = {
     whileHover: { scale: 1.02 },
     whileTap: { scale: 0.95 },
     transition: { type: "spring", stiffness: 400, damping: 17 },
   };
+
+  // ✅ Define your color variants
+  const variantClass = buttonVariants({variant})
+
+  // ✅ Apply your size styles dynamically
+  const sizeClass = buttonVariants({size})
+
+  const widthClass = fullWidth ? "w-full" : "";
+  const paddingClass = padding || "";
+
+  const buttonClass = cn(
+    "flex items-center justify-center gap-2 rounded-full transition-all duration-200 font-medium",
+    variantClass,
+    sizeClass,
+    widthClass,
+    paddingClass,
+    className
+  );
 
   const content = (
     <>
@@ -68,13 +102,9 @@ export function Button({
     </>
   );
 
-  // ✅ Handle Link case
   if (href) {
     return (
-      <Link
-        href={href}
-        className={`${baseClass} ${variantClass} ${widthClass} ${paddingClass} ${className}`}
-      >
+      <Link href={href} className={buttonClass}>
         <motion.span
           className="flex items-center justify-center gap-2 w-full"
           {...motionProps}
@@ -85,10 +115,9 @@ export function Button({
     );
   }
 
-  // ✅ Handle Button case (with all native + motion props safely)
   return (
     <motion.button
-      className={`${baseClass} ${variantClass} ${widthClass} ${paddingClass} ${className}`}
+      className={buttonClass}
       {...(rest as MotionButtonProps)}
       {...motionProps}
     >

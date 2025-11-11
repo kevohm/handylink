@@ -1,8 +1,8 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import connectDB from "@/server/infrastructure/db";
 import User from "@/server/infrastructure/schemas/User";
 
-export async function POST(req: Request) {
+export async function POST(req: NextRequest) {
   await connectDB();
 
   try {

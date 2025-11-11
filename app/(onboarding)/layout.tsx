@@ -12,9 +12,6 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode
 }) {
-  const userAuth = await auth();
-  if (userAuth.sessionClaims?.metadata?.onboardingComplete === true) {
-    redirect('/');
-  }
+  
   return <>{children}</>;
 }

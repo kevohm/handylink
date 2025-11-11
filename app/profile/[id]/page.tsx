@@ -56,6 +56,7 @@ export default function TaskerProfile({ params }: { params: { id: string } }) {
       <div className="px-24">
         <UserCard
           id={"3"}
+          profileImage="#"
           name={tasker.name}
           rating={tasker.rating}
           about={tasker.description}

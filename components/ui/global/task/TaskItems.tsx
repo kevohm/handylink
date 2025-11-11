@@ -1,7 +1,7 @@
 import React from 'react'
 import {motion} from "framer-motion"
-import { Task } from '@/types/Task'
 import SingleTask from './SingleTask'
+import { Task } from '@/types/task'
 
 type Props  = {
     tasks: Task[]
