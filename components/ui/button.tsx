@@ -46,7 +46,14 @@ interface CommonButtonProps extends VariantProps<typeof buttonVariants> {
   href?: string;
   size?: "default" | "sm" | "lg";
   children: ReactNode;
-  variant?: "primary" | "destructive" | "secondary" | "outline" | "text" | "default" | "ghost"; // keep your own variants
+  variant?:
+    | "primary"
+    | "destructive"
+    | "secondary"
+    | "outline"
+    | "text"
+    | "default"
+    | "ghost"; // keep your own variants
 }
 
 type MotionButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & MotionProps;
@@ -71,27 +78,31 @@ export function Button({
   onClick,
   ...rest
 }: ButtonProps) {
-  const motionProps: MotionProps = {
-    whileHover: { scale: 1.02 },
-    whileTap: { scale: 0.95 },
-    transition: { type: "spring", stiffness: 400, damping: 17 },
-  };
+const motionProps: MotionProps = {
+  whileHover: {
+    scale: 1.015, // gentle zoom
+    y: -1, // soft lift
+    // backgroundColor: "rgba(0,0,0,0.02)", // tiny contrast change (works great on light backgrounds)
+  },
+  whileTap: {
+    scale: 0.985, // small press feedback
+    y: 0,
+  },
+  transition: {
+    type: "spring",
+    stiffness: 250,
+    damping: 18,
+    mass: 0.8,
+  },
+};
 
-  // ✅ Define your color variants
-  const variantClass = buttonVariants({variant})
 
-  // ✅ Apply your size styles dynamically
-  const sizeClass = buttonVariants({size})
-
-  const widthClass = fullWidth ? "w-full" : "";
-  const paddingClass = padding || "";
 
   const buttonClass = cn(
+    buttonVariants({ variant, size }),
     "flex items-center justify-center gap-2 rounded-full transition-all duration-200 font-medium",
-    variantClass,
-    sizeClass,
-    widthClass,
-    paddingClass,
+    fullWidth && "w-full",
+    padding,
     className
   );
 

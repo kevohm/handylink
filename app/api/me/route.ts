@@ -6,6 +6,7 @@ import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(req: NextRequest) {
   // ✅ Get authenticated user
+ 
   const { userId } = await auth();
   if (!userId) {
     return NextResponse.json({ error: "Not authenticated" }, { status: 401 });
