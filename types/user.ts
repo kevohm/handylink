@@ -1,8 +1,10 @@
+import { gender } from "@prisma/client"
+
 export type User = {
     id:string
     name:string
     email:string
-    gender: UserGender
+    gender: gender
     profileImage:string
     about:string
     rating:number

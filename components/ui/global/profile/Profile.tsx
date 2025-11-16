@@ -60,7 +60,7 @@ const Profile = ({ user }: { user: User }) => {
           name={`${user.first_name ?? ""} ${user.last_name ?? ""}`}
           rating={4.5}
           about={user.bio || "No bio available."}
-          gender={"male"} // temporary fallback
+          gender={user.gender} // temporary fallback
         />
 
         <section>

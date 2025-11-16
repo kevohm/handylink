@@ -24,6 +24,9 @@ const createProfileSchema = z
       .string()
       .min(10, "Phone number must be at least 10 digits")
       .regex(/^\+?\d{10,15}$/, "Invalid phone number format"),
+    gender: z.enum(["male", "female", "other"], {
+      required_error: "Gender is required",
+    }),
     description: z
       .string()
       .min(10, "Description must be at least 10 characters"),
@@ -43,6 +46,7 @@ export default function CreateProfile() {
     description: "",
     role: "",
     phoneNumber: "",
+    gender: "",
   });
 
   const { stepData } = useStepper();
@@ -62,7 +66,7 @@ export default function CreateProfile() {
   }, [role, router]);
 
   const handleBody = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
   ) => {
     setBody({ ...body, [e.target.name]: e.target.value });
   };
@@ -76,6 +80,7 @@ export default function CreateProfile() {
       phoneNumber: body.phoneNumber,
       description: body.description,
       skills: selectedServices,
+      gender: body.gender,
     };
 
     // ✅ Validate with Zod before API call
@@ -160,6 +165,21 @@ export default function CreateProfile() {
                 setBody((prev) => ({ ...prev, phoneNumber: value }));
               }}
             />
+            <div className="mb-4 w-full ">
+              <label className="block mb-1 text-sm font-medium">Gender</label>
+              <select
+                name="gender"
+                value={body.gender}
+                onChange={handleBody}
+                className="w-full rounded-xl border border-gray-300 bg-white p-2"
+              >
+                <option value="">Select gender</option>
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+                <option value="other">Other</option>
+              </select>
+            </div>
+
             <Textarea
               label="About Me"
               name="description"

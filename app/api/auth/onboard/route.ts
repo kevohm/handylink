@@ -16,7 +16,7 @@ export async function POST(req: Request) {
     const email = clerkUser?.emailAddresses[0].emailAddress
     const firstName = clerkUser?.firstName
     const lastName = clerkUser?.lastName
-    const { role, phoneNumber, description, skills } = await req.json();
+    const { role, phoneNumber, description, skills, gender } = await req.json();
 
     // ✅ Upsert user in Prisma
     const user = await prisma.user.upsert({
@@ -30,6 +30,7 @@ export async function POST(req: Request) {
         email,
         last_name: lastName,
         first_name: firstName,
+        gender
       },
       create: {
         clerkId: userId,
@@ -41,6 +42,7 @@ export async function POST(req: Request) {
         email,
         last_name: lastName,
         first_name: firstName,
+        gender
       },
     });
 

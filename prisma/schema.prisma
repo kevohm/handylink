@@ -20,6 +20,7 @@ model User {
   first_name   String?
   last_name    String?
   skills       String[]
+  gender  gender @default(male)
   bio          String?
   phone_number String?
   profile_image String?
@@ -28,9 +29,29 @@ model User {
   updatedAt    DateTime @updatedAt
 }
 
+enum gender {
+  female
+  male 
+  other
+}
 
 
 enum user_role {
   tasker
   client
+}
+
+
+model Task {
+  id          String   @id @map("_id") @default(auto()) @db.ObjectId
+  price       Float
+  description String
+  category    String
+}
+
+model Review {
+  id     String  @id @map("_id") @default(auto()) @db.ObjectId
+  name   String
+  rating Int
+  text   String
 }
