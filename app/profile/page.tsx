@@ -1,36 +1,37 @@
+
 import BackNavigation from "@/components/ui/global/BackNavigation";
 import ReviewItems from "@/components/ui/global/review/ReviewItems";
 import TaskItems from "@/components/ui/global/task/TaskItems";
 import UserCard from "@/components/ui/global/user/UserCard";
 import { UserGender } from "@/types/user";
-
+import axios from "axios";
+import { cookies } from "next/headers";
+import Profile from "@/components/ui/global/profile/Profile"
 // ✅ Helper to fetch user on the server
-async function getCurrentUser() {
+export async function getCurrentUser() {
   try {
-      const baseURL =
-        process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
-    const res = await fetch(`${baseURL}/api/me`, {
-      cache: "no-store", // ensures fresh data each time
+    // This automatically forwards cookies to your API route
+    const cookieStore = await cookies();
+    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/me`, {
+      method: "GET",
+      credentials: "include",
       headers: {
         "Content-Type": "application/json",
+        Cookie: cookieStore.toString() // ⭐ Forward all cookies manually
       },
-      credentials:"include"
+      cache: "no-store",
     });
-
-    if (!res.ok) {
-      console.error("Failed to fetch user:", res.statusText);
-      return null;
-    }
+    console.log(res)
+    if (!res.ok) return null;
 
     const data = await res.json();
-    console.log(data)
     return data?.user ?? null;
   } catch (error) {
-    console.log(error)
     console.error("Error fetching user:", error);
     return null;
   }
 }
+
 
 export default async function ProfilePage() {
   const user = await getCurrentUser();
@@ -86,31 +87,5 @@ export default async function ProfilePage() {
     },
   ];
 
-  return (
-    <main className="min-h-screen pb-20">
-      <BackNavigation />
-      <div className="px-4 md:px-12 lg:px-24 space-y-8">
-        <UserCard
-          id={user.id}
-          profileImage={user?.profile_image || ""}
-          name={`${user.first_name ?? ""} ${user.last_name ?? ""}`}
-          rating={4.5}
-          about={user.bio || "No bio available."}
-          gender={"male" as UserGender} // temporary fallback
-        />
-
-        <section>
-          <TaskItems tasks={services} />
-        </section>
-
-        <section>
-          <ReviewItems
-            reviews={reviews}
-            rating={4.5}
-            name={`${user.first_name ?? ""} ${user.last_name ?? ""}`}
-          />
-        </section>
-      </div>
-    </main>
-  );
+  return <Profile user={user}/>
 }

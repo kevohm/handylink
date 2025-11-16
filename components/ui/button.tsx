@@ -75,7 +75,6 @@ export function Button({
   padding,
   href,
   className = "",
-  onClick,
   ...rest
 }: ButtonProps) {
 const motionProps: MotionProps = {

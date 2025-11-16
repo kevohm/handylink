@@ -38,7 +38,9 @@ function Navigation() {
       <div className="hidden md:flex items-center space-x-4">
         <SignedOut>
           <SignInButton>
-            <Button className="text-sm">Log In</Button>
+            <Button className="text-sm"
+            
+            >Log In</Button>
           </SignInButton>
           <SignUpButton>
             <Button className="text-sm">Sign up</Button>
